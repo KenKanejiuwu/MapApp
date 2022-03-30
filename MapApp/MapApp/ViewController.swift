@@ -39,6 +39,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         authrization()
         pinPosition()
+        
+        let touch = UILongPressGestureRecognizer(target: self, action: #selector(addPin(recogn:))
+            mapView.addGestureRecognizer(touch)
+            Manager.startUpdatingLocation()
     }
     
     func pinPosition() {
@@ -98,5 +102,24 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             
             self.mapView.addOverlay(route.polyline, level: .aboveRoads)
         }
+    }
+    
+    func mapView(_mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let render = MKPolylineRenderer(overlay: overlay)
+        render.lineWidth = 5
+        render.
+    }
+    
+    @objc func addPin(recogn: UIGestureRecognizer) {
+        
+        let newLocation = recogn.location(in: mapView)
+        let newCoordinate = mapView.convert(newLocation, toCoordinateFrom: mapView)
+        itemMapSecond = MKMapItem(placemark: MKPlacemark(coordinate: newCoordinate))
+        
+        let point = MKPointAnnotation()
+        point .title = "Конечная точка"
+        point.coordinate = newCoordinate
+        mapView.addAnnotation(point)
+        calculayeRoute()
     }
 }
